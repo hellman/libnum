@@ -39,47 +39,92 @@ def invmod(a, n):
 
 def jacobi(a, n):
     """
-    Return Jacobi symbol (@a/@n).
+    Return Jacobi symbol (or Legendre symbol if n is prime)
     """
-    b = a
-    e = 0
-    
-    #--- experimental ---
-    while not (n & 1):
-        n >>= 1
-    #---
+    if n < 1:
+        raise ValueError("Too small module for Jacobi symbol: " + str(n))
 
-    if a == 0:
+    if gcd(a, n) != 1:
         return 0
 
-    if a == 1:
+    # n must be odd
+    while n & 1 == 0:
+        n >>= 1
+
+    if n == 1:
         return 1
 
-    while (b & 1) == 0:
-        b >>= 1
+    a = a % n
+
+    if a in [0, 1]:
+        return a    
+
+    e = 0
+    a1 = a
+    while a1 and a1 % 2 == 0:
+        a1 >>= 1
         e += 1
 
-    a1 = b
-    m = n % 8
-
-    if not (e & 1):
+    if e % 2 == 0 or n % 8 in [1, 7]:
         s = 1
-    elif m == 1 or m == 7:
-        s = 1
-    elif m == 3 or m == 5:
+    elif n % 8 in [3, 5]:
         s = -1
     else:
-        raise ValueError("sorry, error " + str(e) + ", m="+str(m)+";" + str(a) + " "+ str(n))
+        raise Exception("jacobi fail :(")
 
     if n % 4 == 3 and a1 % 4 == 3:
         s = -s
 
-    if a1 != 1:
-        n1 = n % a1
+    if a1 == 1:
+        return s
     else:
-        n1 = 1
-    return s * jacobi(n1, a1)
+        return s * jacobi(n, a1)
 
+
+def quadratic_residue(a, factors):
+    """
+    Check if @a is quadratic residue, factorization needed
+    @factors - list of (prime, power) tuples
+    """
+    for p, e in factors:
+        if prime_quadratic_residue(a, p, e) == False:
+            return False
+    return True
+
+
+def prime_quadratic_residue(a, p, n=1):
+    """
+    Check if @a (mod @p^@n) is quadratic residue, @p is prime.
+    """
+    if p < 2:
+        raise ValueError("Prime must be greater than 1: " + str(p))
+
+    if n < 1:
+        raise ValueError("Prime power must be positive: " + str(n))
+
+    a = a % (p ** n)
+
+    if a in [0, 1]:
+        return True
+    
+    e = 0
+    while a and a % p == 0:
+        a //= p
+        e += 1
+    if e:
+        if e & 1:
+            # looks like it works
+            return False  # * residue(a, p)
+        else:
+            return prime_quadratic_residue(a, p)
+
+    if p == 2:  # power of 2
+        if a % 8 == 1:
+            return True
+        else:
+            return False
+    return True if jacobi(a, p) == 1 else False    
+    
 
 def prime_has_sqrt(a, p):
     """

@@ -4,6 +4,7 @@
 import unittest
 import libnum
 import operator
+from itertools import combinations_with_replacement
 
 class primes(unittest.TestCase):
     def test_primes(self):
@@ -221,6 +222,86 @@ class modulus_math(unittest.TestCase):
         self.assertRaises(TypeError, libnum.solve_crt, [1, 2, 3], [1, 2])
         self.assertRaises(ValueError, libnum.solve_crt, [], []);
 
+    def test_jacobi(self):
+        def test_jacobi_prime(module):
+            sqrs = set()
+            for a in xrange(module):
+               sqrs.add((a * a) % module)
+            for a in xrange(module):
+                if libnum.gcd(a, module) == 1:
+                    real = 1 if a in sqrs else -1
+                else:
+                    real = 0
+                test = libnum.jacobi(a, module)
+                if real != test:
+                    print
+                    print a, module
+                    print real, test, "gcd:", libnum.gcd(a, module)
+                self.assertEqual(real, test)
+    
+        plist = libnum.primes(100) + [293, 1993, 2969, 2971, 9973, 11311]
+        for module in plist :
+            test_jacobi_prime(module)
+
+        plist = libnum.primes(10)
+        lezhs = {}
+
+        for p in plist:
+            lezhs[p] = [libnum.jacobi(a, p) for a in xrange(p)]
+
+        for pnum in xrange(2, 4):
+            for f in combinations_with_replacement(plist, pnum):
+                n = reduce(operator.mul, f)
+                for a in xrange(n):
+                    real = reduce(operator.mul, [lezhs[p][a % p] for p in f])
+                    test = libnum.jacobi(a, n)
+                    if real != test:
+                        print ""
+                        print "%d | %d" % (a, n), f
+                        print "Lezhandre symbols:", [lezhs[p][a % p] for p in f]
+                        for p in f:
+                            print lezhs[p]
+                        print "real", real
+                        print "test", test
+                        print
+                    self.assertEqual(real, test)
+
+        self.assertRaises(ValueError, libnum.jacobi, 0, 0)
+        self.assertRaises(TypeError, libnum.jacobi, "qwe", 1024)
+        self.assertRaises(TypeError, libnum.jacobi, 123, "qwe")
+
+    def test_residue(self):
+        def test_residue_module(module, factors):
+            sqrs = set()
+            for a in xrange(module):
+                sqrs.add((a * a) % module)
+            for a in xrange(module):
+                real = a in sqrs
+                test = libnum.quadratic_residue(a, factors)
+                if real != test:
+                    print "\n%d | %d" % (a, module), factors
+                    print "real", real
+                    print "Test", test
+                self.assertEqual(real, test)
+
+        plist = libnum.primes(100) + [293, 1993, 2969, 2971, 9973, 11311]
+        for p in plist:
+            test_residue_module(p, [(p, 1)])
+
+        plist = libnum.primes(30)
+        for pnum in xrange(2, 4):
+            for f in combinations_with_replacement(plist, pnum):
+                n = reduce(operator.mul, f)
+                f = libnum.factors_list_to_tuples(f)
+                test_residue_module(n, f)
+        
+        for p in [2, 3, 5, 7]:
+            for e in xrange(1, 6):
+                test_residue_module(p, [(p, e)])
+
+        for p in [11, 13, 17, 19]:
+            for e in xrange(1, 4):
+                test_residue_module(p, [(p, e)])
 
 class stuff(unittest.TestCase):
     def test_grey_code(self):
