@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
-from libnum import *
-from primes import *
-from common import *
-from modular import *
-from stuff import *
+from .primes import *
+from .common import *
+from .modular import *
+from .stuff import *
 
 def banner():
     print "libnum - Python library for some numbers functions:"
