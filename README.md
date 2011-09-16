@@ -37,6 +37,20 @@ List of functions
 *  generate\_prime(size, k=25) - generates a pseudo-prime with @size bits length. @k is a number of tests.
 *  generate\_prime\_from\_string(s, size=None, k=25) - generate a pseudo-prime starting with @s in string representation
 
+<b>ECC</b>
+
+*  Curve(a, b, p, g, order, cofactor, seed) - class for representing elliptic curve. Methods:
+*   .is\_null(p) - checks if point is null
+*   .is\_opposite(p1, p2) - checks if 2 points are opposite
+*   .check(p) - checks if point is on the curve
+*   .check\_x(x) - checks if there are points with given x on the curve (and returns them if any)
+*   .find\_points\_in\_range(start, end) - list of points in range of x coordinate
+*   .find\_points\_rand(count) - list of count random points
+*   .add(p1, p2) - p1 + p2 on elliptic curve
+*   .power(p, n) - n✕P or (P + P + ... + P) n times
+*   .generate(n) - n✕G
+*   .get\_order(p, limit) - slow method, trying to determine order of p; limit is max order to try
+
 <b>Converting</b>
 
 *  s2n(s) - packed string to number
