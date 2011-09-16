@@ -3,8 +3,7 @@
 
 import random
 import operator
-from common import *
-
+from .common import *
 
 def has_invmod(a, modulus):
     """
@@ -162,7 +161,7 @@ def prime_sqrtmod(a, p):
         ai = invmod(a, p)
 
     c = pow(b, t, p)
-    r = pow(a, (t + 1) / 2, p)
+    r = pow(a, (t + 1) // 2, p)
     for i in range(1, s):
         e = pow(2, s - i - 1, p)
         d = pow((r * r % p) * ai % p, e, p)
@@ -237,7 +236,7 @@ def solve_crt(remainders, modules):
     x = 0
     N = reduce(operator.mul, modules)
     for i, module in enumerate(modules):
-        Ni = N / module
+        Ni = N // module
         b = invmod(Ni, module)
         x += remainders[i] * Ni * b
     x = x % N

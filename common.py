@@ -59,7 +59,7 @@ def _lcm(a, b):
     """
     if not a or not b:
         raise ZeroDivisionError("lcm arguments may not be zeros")
-    return (a * b) / _gcd(a, b)
+    return (a * b) // _gcd(a, b)
 
 
 def gcd(*lst):
@@ -88,7 +88,7 @@ def xgcd(a, b):
     py, ppy = 1, 0
 
     while b:
-        q = a / b
+        q = a // b
         a, b = b, a % b
         x = ppx - q * px
         y = ppy - q * py

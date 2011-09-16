@@ -4,8 +4,8 @@
 import math
 import random
 import operator
-from common import *
-from strings import *
+from .common import *
+from .strings import *
 
 _primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]
 _small_primes_product = 1
