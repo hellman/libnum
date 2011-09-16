@@ -43,6 +43,9 @@ def jacobi(a, n):
     if n < 1:
         raise ValueError("Too small module for Jacobi symbol: " + str(n))
 
+    if a in [0, 1]:
+        return a
+
     if gcd(a, n) != 1:
         return 0
 
@@ -56,7 +59,7 @@ def jacobi(a, n):
     a = a % n
 
     if a in [0, 1]:
-        return a    
+        return a
 
     e = 0
     a1 = a
@@ -129,6 +132,8 @@ def prime_has_sqrt(a, p):
     """
     Check if @a has modular square root, @p must be prime.
     """
+    if a == 0:
+        return True
     return (jacobi(a, p) == 1)
 
 

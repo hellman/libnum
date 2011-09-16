@@ -200,6 +200,8 @@ class modulus_math(unittest.TestCase):
         for module in [2, 3, 5, 7, 11, 17, 137, 1993]:
             for i in range(0, module):
                 if not libnum.prime_has_sqrt(i, module):
+                    if i in (0, 1):
+                        self.assertTrue(False)  # sorry
                     continue
                 s = libnum.prime_sqrtmod(i, module)[0]
                 self.assertEqual(s * s % module, i)
@@ -303,6 +305,26 @@ class modulus_math(unittest.TestCase):
             for e in xrange(1, 4):
                 test_residue_module(p, [(p, e)])
 
+class ecc(unittest.TestCase):
+    def test_curve(self):
+        NP = libnum.ecc.NULL_POINT
+        c = libnum.ecc.Curve(1, 3, 7)
+
+        points = [NP, (4, 1), (6, 6), (5, 0), (6, 1), (4, 6)]
+        good = [(None, None), (4, 1), (6, 6), (5, 0), (6, 1), (4, 6),
+                (4, 1), (6, 6), (5, 0), (6, 1), (4, 6), (None, None),
+                (6, 6), (5, 0), (6, 1), (4, 6), (None, None), (4, 1),
+                (5, 0), (6, 1), (4, 6), (None, None), (4, 1), (6, 6),
+                (6, 1), (4, 6), (None, None), (4, 1), (6, 6), (5, 0),
+                (4, 6), (None, None), (4, 1), (6, 6), (5, 0), (6, 1)]
+
+        res = []
+        for i in points:
+            for j in points:
+                res += [c.add(i, j)]
+
+        self.assertEqual(res, good)
+
 class stuff(unittest.TestCase):
     def test_grey_code(self):
         pg = 0
@@ -314,7 +336,6 @@ class stuff(unittest.TestCase):
             pg = g
             self.assertEqual(a, libnum.rev_grey_code(g))
         self.assertRaises(TypeError, libnum.grey_code, "qwe")
-
 
 if __name__ == "__main__":
     unittest.main()
