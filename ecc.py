@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
+import random
 from .modular import prime_sqrtmod, prime_has_sqrt, invmod
 
 __all__ = ('NULL_POINT', 'Curve')
