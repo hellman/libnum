@@ -35,7 +35,7 @@ def primes(until, method=None):
     if until <= _primes[-1]:
         for index, prime in enumerate(_primes):
             if prime > until:
-                return _primes[:index - 1]
+                return _primes[:index]
 
     if method is None:
         for i in xrange(_primes[-1] + 2, until + 1, 2):
