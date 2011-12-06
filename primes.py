@@ -68,7 +68,7 @@ def primes(until, method=None):
     return _primes
     
 
-def factorize(n):
+def factorize_list(n):
     """
     Return list of @n's factors. Slowest method.
     """
@@ -81,6 +81,7 @@ def factorize(n):
     limit = int(math.sqrt(n)) + 1
 
     fact = []
+
     plist = primes(limit)
 
     for p in plist:
@@ -97,6 +98,15 @@ def factorize(n):
     else:
         return fact
 
+def factorize(n):
+    """
+    Return factorization (list of tuples).
+    """
+    lst = factorize_list(n)
+    res = {}
+    for a in lst:
+        res[a] = res.get(a, 0) + 1
+    return res.items()
 
 def generate_prime(size, k=25):
     """

@@ -118,7 +118,7 @@ def prime_quadratic_residue(a, p, n=1):
             # looks like it works
             return False  # * residue(a, p)
         else:
-            return prime_quadratic_residue(a, p)
+            return prime_quadratic_residue(a, p, n)
 
     if p == 2:  # power of 2
         if a % 8 == 1:

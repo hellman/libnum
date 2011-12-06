@@ -20,14 +20,15 @@ class primes(unittest.TestCase):
         self.assertRaises(TypeError, libnum.primes, 1000000, "fake")
 
     def test_factorize(self):
-        plist0 = [3, 5, 5, 5, 5, 5, 19, 19, 1993]
-        n = reduce(operator.mul, plist0, 1)
-        plist1 = libnum.factorize(n)
+        plist0 = set([(3, 1), (5, 5), (19, 2), (1993, 1)])
+        
+        n = reduce(lambda a, b: ((a[0]**a[1]) * (b[0]**b[1]), 1), plist0)[0]
+        plist1 = set(libnum.factorize(n))
         self.assertEqual(plist0, plist1)
 
-        self.assertEqual(libnum.factorize(1), [1])
-        self.assertEqual(libnum.factorize(2), [2])
-        self.assertEqual(libnum.factorize(4), [2, 2])
+        self.assertEqual(libnum.factorize(1), [(1,1)])
+        self.assertEqual(libnum.factorize(2), [(2,1)])
+        self.assertEqual(libnum.factorize(4), [(2,2)])
         self.assertRaises(ValueError, libnum.factorize, 0)
         self.assertRaises(TypeError, libnum.factorize, "")
     
