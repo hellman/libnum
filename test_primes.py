@@ -35,13 +35,14 @@ class PrimesTest(unittest.TestCase):
     
     def test_genprime(self):
         for size in (2, 10, 64, 128, 129, 256):
-            p = generate_prime(size, k=25)
-            self.assertEqual(len_in_bits(p), size)
+            for ntry in xrange(10):
+                p = generate_prime(size, k=25)
+                self.assertEqual(len_in_bits(p), size)
 
-            self.assertTrue(prime_test_ferma(p, k=25))
-            self.assertTrue(prime_test_solovay_strassen(p, k=25))
-            self.assertTrue(prime_test_miller_rabin(p, k=25))
-            self.assertTrue(prime_test(p, k=25))
+                self.assertTrue(prime_test_ferma(p, k=25))
+                self.assertTrue(prime_test_solovay_strassen(p, k=25))
+                self.assertTrue(prime_test_miller_rabin(p, k=25))
+                self.assertTrue(prime_test(p, k=25))
 
         self.assertRaises(ValueError, generate_prime, 1)
         self.assertRaises(TypeError, generate_prime, "")
