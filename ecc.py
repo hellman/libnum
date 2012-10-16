@@ -2,7 +2,9 @@
 #-*- coding:utf-8 -*-
 
 import random
-from .modular import prime_sqrtmod, prime_has_sqrt, invmod
+
+from .sqrtmod import sqrtmod_prime_power, has_sqrtmod_prime_power
+from .modular import invmod
 
 __all__ = ('NULL_POINT', 'Curve')
 
@@ -61,10 +63,10 @@ class Curve:
         a = self.right(x)
         n = self.module
 
-        if not prime_has_sqrt(a, n):
+        if not has_sqrtmod_prime_power(a, n):
             return False
 
-        ys = prime_sqrtmod(a, n)
+        ys = sqrtmod_prime_power(a, n)
         return map(lambda y: (x, y), ys)
 
     def right(self, x):
