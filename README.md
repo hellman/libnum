@@ -14,6 +14,8 @@ List of functions
 <b>Common maths</b>
 
 *  len\_in\_bits(n) - number of bits in binary representation of @n
+*  randint\_bits(size) - random number with a given bit size
+*  extract\_prime\_power(a, p) - s,t such that a = p**s * t
 *  nroot(x, n) - truncated n'th root of x
 *  gcd(a, b, ...) - greatest common divisor of all arguments
 *  lcm(a, b, ...) - least common multiplier of all arguments
@@ -23,12 +25,15 @@ List of functions
 
 *  has\_invmod(a, n) - checks if a has modulo inverse
 *  invmod(a, n) - modulo inverse
-*  jacobi(a, b) - Jacobi symbol
-*  prime\_has\_sqrt(a, p) - checks if a number has modular square root, modulus must be prime
-*  prime\_sqrtmod(p, b) - modular square root, modulus must be prime
-*  has\_sqrt(a, factors) - checks if a complex number has modular square root, needs factorization
-*  sqrtmod(a, factors) - modular square root by a complex modulus, needs factorization, also all prime factors must have power 1 (no squares, cubes, etc.)
 *  solve\_crt(remainders, modules) - solve Chinese Remainder Theoreme
+
+<b>Modular square roots</b>
+
+*  jacobi(a, b) - Jacobi symbol
+*  has\_sqrtmod\_prime\_power(a, p, k) - checks if a number has modular square root, modulus is p**k
+*  sqrtmod\_prime\_power(a, p, k) - modular square root by p**k
+*  has\_sqrtmod(a, factors) - checks if a composite number has modular square root, needs factorization
+*  sqrtmod(a, factors) - modular square root by a composite modulus, needs factorization
 
 <b>Primes</b>
 
