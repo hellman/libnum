@@ -226,23 +226,20 @@ def jacobi(a, n):
     s = 1
     while True:
         if n < 1: raise ValueError("Too small module for Jacobi symbol: " + str(n))
-        if n == 1: return 1
-        if a in [0, 1]: return a
-        if gcd(a, n) != 1: return 0
         if n & 1 == 0: raise ValueError("Jacobi is defined only for odd modules")
-        
+        if n == 1: return s
         a = a % n
+        if a == 0: return 0
+        if a == 1: return s
 
-        if a in [0, 1]: return a
+        if a & 1 == 0:
+            if n % 8 in (3, 5):
+                s = -s
+            a >>= 1
+            continue
 
-        # main logic
-        e, a = extract_prime_power(a, 2)
-
-        if e % 2 and n % 8 in (3, 5): s = -s
-        if n % 4 == 3 and a % 4 == 3: s = -s
-
-        if a == 1:
-            return s
+        if a % 4 == 3 and n % 4 == 3:
+            s = -s
 
         a, n = n, a
     return
