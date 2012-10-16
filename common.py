@@ -2,6 +2,7 @@
 #-*- coding:utf-8 -*-
 
 import math
+import random
 
 
 def len_in_bits(n):
@@ -9,6 +10,12 @@ def len_in_bits(n):
     Return number of bits in binary representation of @n.
     """
     return math.trunc(math.log(n, 2)) + 1
+
+
+def randint_bits(size):
+    low = 1 << (size - 1)
+    hi = (1 << size) - 1
+    return random.randint(low, hi)
 
 
 def nroot(x, n):
@@ -96,6 +103,24 @@ def xgcd(a, b):
         ppy, py = py, y
 
     return ppx, ppy, a
+
+
+def extract_prime_power(a, p):
+    """
+    Return s, t such that  a = p**s * t,  t % p = 0
+    """
+    s = 0
+    if p > 2:
+        while a and a % p == 0:
+            s += 1
+            a //= p
+    elif p == 2:
+        while a and a & 1 == 0:
+            s += 1
+            a >>= 1
+    else:
+        raise ValueError("Number %d is not a prime (is smaller than 2)" % p)
+    return s, a
 
 
 def solve_linear(a, b, c):
