@@ -10,7 +10,9 @@ libnum - Python library for some numbers functions:
 from .primes import *
 from .common import *
 from .modular import *
+from .sqrtmod import *
 from .stuff import *
+
 import libnum.ecc as ecc
 
 
