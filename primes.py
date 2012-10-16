@@ -4,6 +4,8 @@
 import math
 import random
 import operator
+
+from .sqrtmod import *
 from .common import *
 from .strings import *
 
@@ -23,7 +25,7 @@ def _init():
     return
 
 
-def primes(until, method=None):
+def primes(until):
     """
     Return list of primes not greater than @until. Rather slow.
     """
@@ -37,34 +39,14 @@ def primes(until, method=None):
             if prime > until:
                 return _primes[:index]
 
-    if method is None:
-        for i in xrange(_primes[-1] + 2, until + 1, 2):
-            sqrt = math.sqrt(i) + 1
-            for j in _primes:
-                if i % j == 0:
-                    break
-                if j > sqrt:
-                    _primes.append(i)
-                    break
-            else:
+    for i in xrange(_primes[-1] + 2, until + 1, 2):
+        sqrt = math.sqrt(i) + 1
+        for j in _primes:
+            if i % j == 0:
+                break
+            if j > sqrt:
                 _primes.append(i)
-    elif method.lower().startswith("erato"):
-        limit = nroot(until, 2) + 1
-        if len(_primes_mask) < until + 1:
-            _primes_mask.extend([True] * ((until + 1 - len(_primes_mask))))
-        
-        _primes_mask[0] = False
-        _primes_mask[1] = False
-
-        _primes = []
-        for i in range(2, until + 1):
-            if not _primes_mask[i]:
-                continue
-            _primes.append(i)
-            for j in range(i * 2, until + 1, i):
-                _primes_mask[j] = False
-    else:
-        raise TypeError("Unknown method: %s" % method)    
+                break
     return _primes
     
 
@@ -98,6 +80,7 @@ def factorize_list(n):
     else:
         return fact
 
+
 def factorize(n):
     """
     Return factorization (list of tuples).
@@ -107,6 +90,14 @@ def factorize(n):
     for a in lst:
         res[a] = res.get(a, 0) + 1
     return res.items()
+
+
+def unfactorize(factors):
+    """
+    Return number by factorization (from list of tuples)
+    """
+    return reduce(lambda acc, (p, k): acc * (p**k), factors, 1)
+
 
 def generate_prime(size, k=25):
     """
@@ -119,16 +110,13 @@ def generate_prime(size, k=25):
     if size <= 10:
         return random.choice(_primes_bits[size])
 
-    low = 1 << (size - 1)
-    hi = (1 << size) - 1
-
     while True:
-        n = random.randint(low, hi) | 1  # only odd
+        n = randint_bits(size) | 1  # only odd
 
         if gcd(_small_primes_product, n) != 1:
             continue
 
-        if ferma_test(n, k):
+        if prime_test(n, k):
             return n
     return
 
@@ -162,49 +150,91 @@ def generate_prime_from_string(s, size=None, k=25):
         if gcd(_small_primes_product, n) != 1:
             continue
 
-        if ferma_test(n, k):
+        if prime_test(n, k):
             return n
     return
 
 
-def ferma_test(p, k=25):
+def prime_test_ferma(p, k=25):
     """
-    Test for primality based on Ferma's Little Theorem.
+    Test for primality based on Ferma's Little Theorem
+    Totally fails in Carmichael'e numbers
     """
-    if p < 2:
-        return False
-
-    if p <= 3:
-        return True
+    if p < 2: return False
+    if p <= 3: return True
+    if p & 1 == 0: return False
 
     for j in xrange(k):
         a = random.randint(2, p - 1)
+        if gcd(a, p) != 1:
+            return False
+
         result = pow(a, p - 1, p)
         if result != 1:
             return False
-
     return True
 
 
-#def ferma_test_hi(p, k=25):
-#    m = p - 1
-#    s = 0
-#    while not m & 1:
-#        s = s + 1
-#        m = m >> 1
-#
-#    # if a ^ m % n != 1 then not a prime
-#    # else do test again (k times)
-#    for j in range(k):
-#        a = random.randint(2, p - 1)
-#        b = pow(a, m, p)
-#        if b == 1:
-#            continue
-#        for i in range(1, s):
-#            if b == p - 1:
-#                return True
-#            b = (b*b) % p
-#        break
-#    return False
+def prime_test_solovay_strassen(p, k=25):
+    """
+    Test for primality by Solovai-Strassen
+    Stronger than Ferma's test
+    """
+    if p < 2: return False
+    if p <= 3: return True
+    if p & 1 == 0: return False
+
+    for j in xrange(k):
+        a = random.randint(2, p - 1)
+        if gcd(a, p) != 1:
+            return False
+
+        result = pow(a, (p - 1) / 2, p)
+        if result not in (1, p - 1):
+            return False
+
+        if result != jacobi(a, p) % p:
+            return False
+    return True    
+
+
+def prime_test_miller_rabin(p, k=25):
+    """
+    Test for primality by Miller-Rabin
+    Stronger than Solovay-Strassen's test
+    """
+    if p < 2: return False
+    if p <= 3: return True
+    if p & 1 == 0: return False
+    
+    # p - 1 = 2**s * m
+    s, m = extract_prime_power(p - 1, 2)
+
+    for j in range(k):
+        a = random.randint(2, p - 2)
+        if gcd(a, p) != 1:
+            return False
+
+        b = pow(a, m, p)
+        if b in (1, p - 1):
+            continue
+
+        for i in range(s):
+            b = pow(b, 2, p)
+
+            if b == 1:
+                return False
+
+            if b == p - 1:
+                # is there one more squaring left to result in 1 ?
+                if i < s - 1: break  # good
+                else: return False   # bad
+        else:
+            # result is not 1
+            return False
+    return True
+
+prime_test = prime_test_miller_rabin
+
 
 _init()
