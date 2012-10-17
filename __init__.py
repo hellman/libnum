@@ -18,7 +18,6 @@ import libnum.ecc as ecc
 
 __author__ = "Alexey Hellman (hellman1908@gmail.com)"
 __license__ = "GPL v2"
-__version__ = "0.0.2"
 
 
 if __name__ == "__main__":
