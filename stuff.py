@@ -23,14 +23,3 @@ def nCk(n, k):
     return int(round(
         reduce(operator.mul, (float(n-i)/(i+1) for i in range(k)), 1)
     ))
-
-
-def factors_list_to_tuples(factors):
-    """
-    Convert list of primes into a list of (prime, power) tuples.
-    """
-    res = []
-    unique = set(factors)
-    for p in sorted(unique):
-        res.append((p, factors.count(p)))
-    return res

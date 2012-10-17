@@ -55,6 +55,8 @@ def _gcd(a, b):
     """
     Return greatest common divisor using Euclid's Algorithm.
     """
+    if a == 0: return b
+    if b == 0: return a
     while b:
         a, b = b, a % b
     return abs(a)
@@ -88,8 +90,8 @@ def xgcd(a, b):
     Extented Euclid GCD algorithm.
     Return (x, y, g) : a * x + b * y = gcd(a, b) = g.
     """
-    if a == 0:
-        return 0, 1, b
+    if a == 0: return 0, 1, b
+    if b == 0: return 1, 0, a
 
     px, ppx = 0, 1
     py, ppy = 1, 0

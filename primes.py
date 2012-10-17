@@ -5,7 +5,7 @@ import math
 import random
 import operator
 
-from .sqrtmod import *
+from .sqrtmod import jacobi
 from .common import *
 from .strings import *
 
