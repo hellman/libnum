@@ -112,9 +112,9 @@ class ModulusMath(unittest.TestCase):
         self.assertRaises(Exception, jacobi, 123, "qwe")
 
     def test_nCk_mod_pp(self):
-        print
+        print "\nTesting nCk mod prime powers"
         for p, max_e in [(2, 8), (3, 4), (5, 3), (7, 3), (11, 2), (13, 2)]:
-            print "PRIME", p, "POW UP TO", max_e
+            print "    prime", p, "pow up to", max_e
             for i in xrange(100):
                 k = random.randint(1, 10000)
                 n = k + random.randint(0, 10000)
@@ -126,6 +126,25 @@ class ModulusMath(unittest.TestCase):
     def test_nCk_mod(self):
         # TODO: do
         pass
+
+    def test_factorial_mod(self):
+        print "\nTesting factorial mod prime powers"
+        for p, max_e in [(2, 8), (3, 4), (5, 3), (7, 3), (11, 2)]:
+            print "    prime", p, "pow up to", max_e
+            for i in xrange(250):
+                n = random.randint(1, 3000)
+                e = random.randint(1, max_e)
+                my = factorial_mod(n, [(p, e)])
+                real = factorial(n) % (p**e)
+                self.assertEqual(my, real)
+
+        print "\nTesting factorial mod small composites"
+        for i in xrange(150):
+            n = random.randint(1, 8000)
+            x = random.randint(0, n * 2)
+            my = factorial_mod(x, factorize(n))
+            real = factorial(x) % n
+            self.assertEqual(my, real)
 
 if __name__ == "__main__":
     unittest.main()

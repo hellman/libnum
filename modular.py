@@ -5,7 +5,7 @@ import random
 import operator
 
 from .common import *
-from .stuff import factorial_get_prime_pow
+from .stuff import *
 
 
 def has_invmod(a, modulus):
@@ -74,6 +74,23 @@ def nCk_mod(n, k, factors):
     return solve_crt(rems, mods)
 
 
+def factorial_mod(n, factors):
+    """
+    Compute factorial modulo, factorization of modulus is needed
+    """
+    rems = []
+    mods = []
+    for p, e in factors:
+        pe = p ** e
+        if n >= pe or factorial_get_prime_pow(n, p) >= e:
+            factmod = 0
+        else:
+            factmod = factorial(n) % pe
+        rems.append(factmod)
+        mods.append(pe)
+    return solve_crt(rems, mods)    
+
+
 def nCk_mod_prime_power(n, k, p, e):
     """
     Compute nCk mod small prime power: p**e
@@ -101,17 +118,13 @@ def nCk_mod_prime_power(n, k, p, e):
                 x = 1
             acc = (acc * x) % pe
             fact_pe.append(acc)
-        fact_full = acc
 
         top = bottom =1
         is_negative = 0
         digits = 0
 
-        while True:
-            if n == 0:
-                break
-
-            if acc != 1:
+        while n != 0:
+            if fact_full != 1:
                 if digits >= e:
                     is_negative ^= n & 1
                     is_negative ^= r & 1
@@ -127,7 +140,10 @@ def nCk_mod_prime_power(n, k, p, e):
 
             digits += 1
 
-        res = (((-1) ** is_negative) * top * invmod(bottom, pe)) % pe
+        res = (top * invmod(bottom, pe)) % pe
+        if p != 2 or e < 3:
+            if is_negative:
+                res = pe - res
         return res
 
     prime_part_pow = nCk_get_prime_pow(n, k, p)
