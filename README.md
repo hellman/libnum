@@ -26,6 +26,9 @@ List of functions
 *  has\_invmod(a, n) - checks if a has modulo inverse
 *  invmod(a, n) - modulo inverse
 *  solve\_crt(remainders, modules) - solve Chinese Remainder Theoreme
+*  factorial\_mod(n, factors) - compute factorial modulo composite number, needs factorization
+*  nCk\_mod(n, k, factors) - compute combinations number modulo composite number, needs factorization
+*  nCk\_mod\_prime\_power(n, k, p, e) - compute combinations number modulo prime power
 
 <b>Modular square roots</b>
 
@@ -68,6 +71,7 @@ List of functions
 *  grey\_code(n) - number in Grey code
 *  rev\_grey\_code(g) - number from Grey code
 *  nCk(n, k) - number of combinations
+*  factorial(n) - factorial
 
 About
 ---------------------
