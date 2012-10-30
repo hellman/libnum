@@ -16,6 +16,26 @@ def rev_grey_code(g):
     return n
 
 
+def factorial(n):
+    res = 1
+    while n > 1:
+        res *= n
+        n -= 1
+    return res
+
+
+def factorial_get_prime_pow(n, p):
+    """
+    Return power of prime @p in @n!
+    """
+    count = 0
+    ppow = p
+    while ppow <= n:
+        count += n // ppow
+        ppow *= p
+    return count
+
+
 def nCk(n, k):
     """
     Combinations number

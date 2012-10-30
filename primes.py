@@ -39,7 +39,9 @@ def primes(until):
             if prime > until:
                 return _primes[:index]
 
-    for i in xrange(_primes[-1] + 2, until + 1, 2):
+    i = _primes[-1]
+    while i < until + 1:
+        i += 2
         sqrt = math.sqrt(i) + 1
         for j in _primes:
             if i % j == 0:

@@ -18,6 +18,10 @@ def randint_bits(size):
     return random.randint(low, hi)
 
 
+def ceil(x, y):
+    return x / y + (x % y != 0)
+
+
 def nroot(x, n):
     """
     Return truncated n'th root of x.
