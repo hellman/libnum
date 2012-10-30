@@ -111,6 +111,21 @@ class ModulusMath(unittest.TestCase):
         self.assertRaises(Exception, jacobi, "qwe", 1024)
         self.assertRaises(Exception, jacobi, 123, "qwe")
 
+    def test_nCk_mod_pp(self):
+        print
+        for p, max_e in [(2, 8), (3, 4), (5, 3), (7, 3), (11, 2), (13, 2)]:
+            print "PRIME", p, "POW UP TO", max_e
+            for i in xrange(100):
+                k = random.randint(1, 10000)
+                n = k + random.randint(0, 10000)
+                e = random.randint(1, max_e)
+                my = nCk_mod_prime_power(n, k, p, e)
+                real = nCk(n, k) % (p**e)
+                self.assertEqual(my, real)
+
+    def test_nCk_mod(self):
+        # TODO: do
+        pass
 
 if __name__ == "__main__":
     unittest.main()

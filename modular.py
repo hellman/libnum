@@ -5,6 +5,7 @@ import random
 import operator
 
 from .common import *
+from .stuff import factorial_get_prime_pow
 
 
 def has_invmod(a, modulus):
@@ -59,3 +60,81 @@ def solve_crt(remainders, modules):
         b = invmod(Ni, module)
         x += remainders[i] * Ni * b
     return x % N
+
+
+def nCk_mod(n, k, factors):
+    """
+    Compute nCk modulo, factorization of modulus is needed
+    """
+    rems = []
+    mods = []
+    for p, e in factors:
+        rems.append(nCk_mod_prime_power(n, k, p, e))
+        mods.append(p ** e)
+    return solve_crt(rems, mods)
+
+
+def nCk_mod_prime_power(n, k, p, e):
+    """
+    Compute nCk mod small prime power: p**e
+    Algorithm by Andrew Granville:
+        http://www.dms.umontreal.ca/~andrew/PDF/BinCoeff.pdf
+    What can be optimized:
+        - compute (n-k)*(n-k+1)*...*n / 1*2*...*k instead of n!, k!, r!
+        - ...
+    """
+
+    def nCk_get_prime_pow(n, k, p):
+        res = factorial_get_prime_pow(n, p)
+        res -= factorial_get_prime_pow(k, p)
+        res -= factorial_get_prime_pow(n - k, p)
+        return res
+
+    def nCk_get_non_prime_part(n, k, p, e):
+        pe = p ** e
+        r = n - k
+
+        fact_pe = [1]
+        acc = 1
+        for x in xrange(1, pe):
+            if x % p == 0:
+                x = 1
+            acc = (acc * x) % pe
+            fact_pe.append(acc)
+        fact_full = acc
+
+        top = bottom =1
+        is_negative = 0
+        digits = 0
+
+        while True:
+            if n == 0:
+                break
+
+            if acc != 1:
+                if digits >= e:
+                    is_negative ^= n & 1
+                    is_negative ^= r & 1
+                    is_negative ^= k & 1
+
+            top = (top * fact_pe[n % pe]) % pe
+            bottom = (bottom * fact_pe[r % pe]) % pe
+            bottom = (bottom * fact_pe[k % pe]) % pe
+
+            n //= p
+            r //= p
+            k //= p
+
+            digits += 1
+
+        res = (((-1) ** is_negative) * top * invmod(bottom, pe)) % pe
+        return res
+
+    prime_part_pow = nCk_get_prime_pow(n, k, p)
+    if prime_part_pow >= e:
+        return 0
+
+    modpow = e - prime_part_pow
+
+    r = nCk_get_non_prime_part(n, k, p, modpow) % (p ** modpow)
+    return ((p ** prime_part_pow) * r) % (p ** e)
