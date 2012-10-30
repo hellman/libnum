@@ -124,7 +124,7 @@ def nCk_mod_prime_power(n, k, p, e):
         digits = 0
 
         while n != 0:
-            if fact_full != 1:
+            if acc != 1:
                 if digits >= e:
                     is_negative ^= n & 1
                     is_negative ^= r & 1
