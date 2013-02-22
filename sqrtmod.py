@@ -14,9 +14,9 @@ def has_sqrtmod(a, factors=None):
     @factors - list of (prime, power) tuples
     """
     if not factors:
-        raise ValueError("Factors list can't be empty: %s" % factors)
+        raise ValueError("Factors can't be empty: %s" % factors)
 
-    for p, k in factors:
+    for p, k in factors.items():
         if p <= 1 or k <= 0:
             raise ValueError("Not valid prime power: %s**%s" % (p, k))
 
@@ -31,17 +31,17 @@ def sqrtmod(a, factors):
     Yield square roots by product of @factors as modulus.
     @factors - list of (prime, power) tuples
     """
-    coprime_factors = [p ** k for p, k in factors]
-    n = reduce(operator.mul, coprime_factors)
+    coprime_factors = [p ** k for p, k in factors.items()]
+    #n = reduce(operator.mul, coprime_factors)
 
     sqrts = []
-    for i, (p, k) in enumerate(factors):
+    for i, (p, k) in enumerate(factors.items()):
         # it's bad that all roots by each modulus are calculated here
         # - we can start yielding roots faster
         sqrts.append( list(sqrtmod_prime_power(a % coprime_factors[i], p, k) ) )
 
     for rems in product(*sqrts):
-        yield solve_crt(rems, coprime_factors) 
+        yield solve_crt(rems, coprime_factors)
     return
 
 
@@ -59,7 +59,7 @@ def has_sqrtmod_prime_power(a, p, n=1):
 
     if a in (0, 1):
         return True
-    
+
     e, a = extract_prime_power(a, p)
 
     if e:
@@ -133,7 +133,7 @@ def sqrtmod_prime_power(a, p, k=1):
                 next_powind = powind + 1
                 next_roots = set()
 
-                for r in roots:
+                for r in roots:  # can be done better
                     if pow(r, 2, powers[next_powind]) == a % powers[next_powind]:
                         next_roots.add(r)
 

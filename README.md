@@ -41,9 +41,13 @@ List of functions
 <b>Primes</b>
 
 *  primes(n) - list of primes not greater than @n, slow method
-*  factorize(n) - slow method of factorization
 *  generate\_prime(size, k=25) - generates a pseudo-prime with @size bits length. @k is a number of tests.
 *  generate\_prime\_from\_string(s, size=None, k=25) - generate a pseudo-prime starting with @s in string representation
+
+<b>Factorization</b>
+*  is\_power(n) - check if @n is p**k, k >= 2: return (p, k) or False
+*  factorize(n) - factorize @n (currently with rho-Pollard method)
+warning: format of factorization is now dict like {p1: e1, p2: e2, ...}
 
 <b>ECC</b>
 

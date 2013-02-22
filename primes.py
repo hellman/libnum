@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
 import math
@@ -50,55 +49,6 @@ def primes(until):
                 _primes.append(i)
                 break
     return _primes
-    
-
-def factorize_list(n):
-    """
-    Return list of @n's factors. Slowest method.
-    """
-    if n < 1:
-        raise ValueError("factorize() accepts only numbers greater than 1 (" +
-                         "given: " + str(n) + ")")
-    if n == 1:
-        return [1]
-
-    limit = int(math.sqrt(n)) + 1
-
-    fact = []
-
-    plist = primes(limit)
-
-    for p in plist:
-        while n % p == 0:
-            fact.append(p)
-            n = n // p
-        if n == 1:
-            return fact
-        if n in plist:
-            return fact + [n]
-
-    if n != 1:
-        return fact + [n]
-    else:
-        return fact
-
-
-def factorize(n):
-    """
-    Return factorization (list of tuples).
-    """
-    lst = factorize_list(n)
-    res = {}
-    for a in lst:
-        res[a] = res.get(a, 0) + 1
-    return res.items()
-
-
-def unfactorize(factors):
-    """
-    Return number by factorization (from list of tuples)
-    """
-    return reduce(lambda acc, (p, k): acc * (p**k), factors, 1)
 
 
 def generate_prime(size, k=25):
@@ -197,7 +147,7 @@ def prime_test_solovay_strassen(p, k=25):
 
         if result != jacobi(a, p) % p:
             return False
-    return True    
+    return True
 
 
 def prime_test_miller_rabin(p, k=25):
@@ -208,7 +158,7 @@ def prime_test_miller_rabin(p, k=25):
     if p < 2: return False
     if p <= 3: return True
     if p & 1 == 0: return False
-    
+
     # p - 1 = 2**s * m
     s, m = extract_prime_power(p - 1, 2)
 
@@ -235,6 +185,7 @@ def prime_test_miller_rabin(p, k=25):
             # result is not 1
             return False
     return True
+
 
 prime_test = prime_test_miller_rabin
 

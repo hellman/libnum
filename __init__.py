@@ -8,6 +8,7 @@ libnum - Python library for some numbers functions:
 """
 
 from .primes import *
+from .factorize import *
 from .common import *
 from .modular import *
 from .sqrtmod import *
