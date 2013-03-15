@@ -2,11 +2,11 @@
 #-*- coding:utf-8 -*-
 
 import unittest
-import operator
 import random
 
 from libnum.primes import *
 from libnum.sqrtmod import *
+from libnum.factorize import factorize, unfactorize
 
 
 class SqrtTest(unittest.TestCase):
@@ -54,18 +54,17 @@ class SqrtTest(unittest.TestCase):
         self.assertRaises(TypeError, has_sqrtmod_prime_power, 3, 9, "")
         self.assertRaises(TypeError, has_sqrtmod_prime_power, 3, "", 30)
         self.assertRaises(TypeError, has_sqrtmod_prime_power, "", 9, 30)
-        self.assertRaises(ValueError, has_sqrtmod_prime_power, 1, 2, 0) # 1 mod 2**0
-        self.assertRaises(ValueError, has_sqrtmod_prime_power, 1, 1, 2) # 1 mod 1**2
+        self.assertRaises(ValueError, has_sqrtmod_prime_power, 1, 2, 0)  # 1 mod 2**0
+        self.assertRaises(ValueError, has_sqrtmod_prime_power, 1, 1, 2)  # 1 mod 1**2
 
-        self.assertRaises(TypeError, has_sqrtmod, 3, [(9, "")])
-        self.assertRaises(TypeError, has_sqrtmod, 3, [("", 2)])
-        self.assertRaises(TypeError, has_sqrtmod, "", [(9, 30)])
-        self.assertRaises(TypeError, has_sqrtmod, "", [9, 30])
-        self.assertRaises(ValueError, has_sqrtmod, "", [(9,), 30])
-        self.assertRaises(ValueError, has_sqrtmod, 1, [(2, 0)]) # 1 mod 2**0
-        self.assertRaises(ValueError, has_sqrtmod, 1, [(1, 2)]) # 1 mod 1**2
-        self.assertRaises(ValueError, has_sqrtmod, 3, [])
-    
+        self.assertRaises(TypeError, has_sqrtmod, 3, {9: ""})
+        self.assertRaises(TypeError, has_sqrtmod, 3, {"": 2})
+        self.assertRaises(TypeError, has_sqrtmod, "", {9: 30})
+        self.assertRaises(TypeError, has_sqrtmod, "", {(9,): 30})
+        self.assertRaises(ValueError, has_sqrtmod, 1, {2: 0})  # 1 mod 2**0
+        self.assertRaises(ValueError, has_sqrtmod, 1, {1: 2})  # 1 mod 1**2
+        self.assertRaises(ValueError, has_sqrtmod, 3, {})
+
     def test_sqrt_pp_all(self):
         print "\nTesting all residues by small modules"
         for prime, maxpow in [(2, 11), (3, 7), (5, 5), (7, 4), (11, 3), (13, 3), (97, 2)]:
@@ -75,7 +74,7 @@ class SqrtTest(unittest.TestCase):
                 for x in xrange(n):
                     a = pow(x, 2, n)
 
-                    is_sqrt = has_sqrtmod(a, [(prime, k)])
+                    is_sqrt = has_sqrtmod(a, {prime: k})
                     is_sqrt2 = has_sqrtmod_prime_power(a, prime, k)
                     self.assertEqual(is_sqrt, is_sqrt2)
                     if is_sqrt:
@@ -84,7 +83,7 @@ class SqrtTest(unittest.TestCase):
                     self.check_jacobi(a, n, is_sqrt)
 
                     self.assertTrue( has_sqrtmod_prime_power(a, prime, k) )
-                    self.assertTrue( has_sqrtmod(a, [(prime, k)]) )
+                    self.assertTrue( has_sqrtmod(a, {prime: k}) )
                     self.check_valid_sqrt_pp(x, a, prime, k)
 
     def test_sqrt_pp_rand(self):

@@ -63,7 +63,7 @@ class ModulusMath(unittest.TestCase):
             for i in xrange(len(modules)):
                 self.assertEqual(rems[i], a % modules[i])
         self.assertRaises(TypeError, solve_crt, [1, 2, 3], [1, 2])
-        self.assertRaises(ValueError, solve_crt, [], []);
+        self.assertRaises(ValueError, solve_crt, [], [])
 
     def test_jacobi(self):
         def test_jacobi_prime(module):
@@ -77,7 +77,7 @@ class ModulusMath(unittest.TestCase):
                     real = 0
                 test = jacobi(a, module)
                 self.assertEqual(real, test)
-    
+
         plist = primes(100) + [293, 1993, 2969, 2971, 9973, 11311]
         for module in plist[2:]:
             test_jacobi_prime(module)
@@ -134,7 +134,7 @@ class ModulusMath(unittest.TestCase):
             for i in xrange(250):
                 n = random.randint(1, 3000)
                 e = random.randint(1, max_e)
-                my = factorial_mod(n, [(p, e)])
+                my = factorial_mod(n, {p: e})
                 real = factorial(n) % (p**e)
                 self.assertEqual(my, real)
 

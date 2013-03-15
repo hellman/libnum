@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
-import random
 import operator
 
 from .common import *
@@ -68,7 +67,7 @@ def nCk_mod(n, k, factors):
     """
     rems = []
     mods = []
-    for p, e in factors:
+    for p, e in factors.items():
         rems.append(nCk_mod_prime_power(n, k, p, e))
         mods.append(p ** e)
     return solve_crt(rems, mods)
@@ -80,7 +79,7 @@ def factorial_mod(n, factors):
     """
     rems = []
     mods = []
-    for p, e in factors:
+    for p, e in factors.items():
         pe = p ** e
         if n >= pe or factorial_get_prime_pow(n, p) >= e:
             factmod = 0
@@ -88,7 +87,7 @@ def factorial_mod(n, factors):
             factmod = factorial(n) % pe
         rems.append(factmod)
         mods.append(pe)
-    return solve_crt(rems, mods)    
+    return solve_crt(rems, mods)
 
 
 def nCk_mod_prime_power(n, k, p, e):

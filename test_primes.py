@@ -2,8 +2,6 @@
 #-*- coding:utf-8 -*-
 
 import unittest
-import operator
-import random
 
 from libnum.primes import *
 
@@ -15,24 +13,11 @@ class PrimesTest(unittest.TestCase):
         self.assertEqual(len(p), 9592)
         self.assertEqual(p[9591], 99991)  # 9592th prime number
         self.assertRaises(TypeError, primes, "")
-        
+
         self.assertEqual(primes(-1), [])
         self.assertEqual(primes(1), [])
         self.assertRaises(TypeError, primes, 1000000, "fake")
 
-    def test_factorize(self):
-        plist0 = set([(3, 1), (5, 5), (19, 2), (1993, 1)])
-        
-        n = reduce(lambda a, b: ((a[0]**a[1]) * (b[0]**b[1]), 1), plist0)[0]
-        plist1 = set(factorize(n))
-        self.assertEqual(plist0, plist1)
-
-        self.assertEqual(factorize(1), [(1,1)])
-        self.assertEqual(factorize(2), [(2,1)])
-        self.assertEqual(factorize(4), [(2,2)])
-        self.assertRaises(ValueError, factorize, 0)
-        self.assertRaises(TypeError, factorize, "")
-    
     def test_genprime(self):
         for size in (2, 10, 64, 128, 129, 256):
             for ntry in xrange(10):
@@ -53,7 +38,7 @@ class PrimesTest(unittest.TestCase):
         s = n2s(n)
         self.assertTrue(s.startswith(begin))
         self.assertTrue(prime_test(n, 25))
-        
+
         self.assertRaises(TypeError, generate_prime_from_string, 31337)
         self.assertRaises(ValueError, generate_prime_from_string, "test", 8)
         self.assertRaises(ValueError, generate_prime_from_string, "test", -8)
