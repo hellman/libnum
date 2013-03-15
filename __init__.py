@@ -13,7 +13,7 @@ from .common import *
 from .modular import *
 from .sqrtmod import *
 from .stuff import *
-
+from .chains import *
 import libnum.ecc as ecc
 
 
