@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 #-*- coding:utf-8 -*-
 """
 libnum - Python library for some numbers functions:
@@ -14,7 +13,7 @@ from .modular import *
 from .sqrtmod import *
 from .stuff import *
 from .chains import *
-import libnum.ecc as ecc
+from . import ecc
 
 
 __author__ = "Alexey Hellman (hellman1908@gmail.com)"
