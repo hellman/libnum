@@ -54,8 +54,12 @@ def solve_crt(remainders, modules):
     x = 0
     N = reduce(operator.mul, modules)
     for i, module in enumerate(modules):
+        if module == 1:
+            continue
+
         Ni = N // module
         b = invmod(Ni, module)
+
         x += remainders[i] * Ni * b
     return x % N
 

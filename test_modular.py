@@ -52,6 +52,7 @@ class ModulusMath(unittest.TestCase):
         for module in [2, 3, 5, 7, 1993]:
             for a in xrange(module):
                 self.assertEqual(solve_crt([a], [module]), a)
+                self.assertEqual(solve_crt([a, 0], [module, 1]), a)
         modules = [2, 3, 5, 19, 137]
         for i in xrange(1000):
             rems = []
