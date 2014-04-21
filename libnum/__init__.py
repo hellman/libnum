@@ -16,9 +16,6 @@ from .chains import *
 from . import ecc
 
 
-__author__ = "Alexey Hellman (hellman1908@gmail.com)"
-__license__ = "GPL v2"
-
-
-if __name__ == "__main__":
-    banner()
+__author__ = "hellman (hellman1908@gmail.com)"
+__license__ = "MIT"
+__version__ = "1.4"
