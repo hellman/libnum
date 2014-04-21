@@ -8,7 +8,9 @@ def len_in_bits(n):
     """
     Return number of bits in binary representation of @n.
     """
-    return math.trunc(math.log(n, 2)) + 1
+    if n == 0:
+        return 0
+    return len(bin(n)) - 2
 
 
 def randint_bits(size):

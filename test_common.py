@@ -7,11 +7,19 @@ from libnum import *
 
 class CommonMath(unittest.TestCase):
     def test_len_in_bits(self):
+        self.assertEqual(len_in_bits(140737488355328), 48)
         self.assertEqual(len_in_bits(1023), 10)
         self.assertEqual(len_in_bits(1024), 11)
         self.assertEqual(len_in_bits(1), 1)
+        self.assertEqual(len_in_bits(0), 0)
 
-        self.assertRaises(ValueError, len_in_bits, 0)
+        # test number close to powers of two
+        for p in (1, 10, 100, 1000, 10000, 100000):
+            pow2 = 1 << p
+            self.assertEqual(len_in_bits(pow2 + 1), p + 1)
+            self.assertEqual(len_in_bits(pow2), p + 1)
+            self.assertEqual(len_in_bits(pow2 - 1), p)
+
         self.assertRaises(TypeError, len_in_bits, "qwe")
 
     def test_nroot(self):
@@ -23,7 +31,7 @@ class CommonMath(unittest.TestCase):
         self.assertEqual(nroot(-64, 3), -4)
         self.assertEqual(nroot(100, 2), 10)
         self.assertEqual(nroot(999, 3), 9)
-        self.assertEqual(nroot(1000, 3), 10)        
+        self.assertEqual(nroot(1000, 3), 10)
         self.assertEqual(nroot(1001, 3), 10)
 
         self.assertRaises(ValueError, nroot, 100, -1)
