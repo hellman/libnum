@@ -1,12 +1,17 @@
 libnum
 ====================
 
+**Requirements:** python2.7
+
 This is a python library for some numbers functions:
 
 *  working with primes (generating, primality tests)
 *  common maths (gcd, lcm, n'th root)
 *  modular arithmetics (inverse, Jacobi symbol, square root, solve CRT)
 *  converting strings to numbers or binary strings
+
+Library may be used for learning/experimenting purposes. Should NOT be used for secure crypto implementations.
+
 
 List of functions
 ---------------------
@@ -82,4 +87,4 @@ About
 
 Author: hellman ( hellman1908@gmail.com )
 
-License: GNU General Public License v2 (http://opensource.org/licenses/gpl-2.0.php)
+License: MIT License (http://opensource.org/licenses/MIT)
