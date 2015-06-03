@@ -8,9 +8,12 @@ def len_in_bits(n):
     """
     Return number of bits in binary representation of @n.
     """
-    if n == 0:
-        return 0
-    return len(bin(n)) - 2
+    try:
+        return n.bit_length() # new in Python 2.7
+    except AttributeError:
+        if n == 0:
+            return 0
+        return len(bin(n)) - 2
 
 
 def randint_bits(size):
