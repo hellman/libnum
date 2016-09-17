@@ -17,7 +17,7 @@ setup(name='libnum',
       description='Some number theoretic functions.',
       long_description=libnum.__doc__,
 
-      packages=['libnum'],
+      packages=['libnum', 'libnum.chains'],
       provides=['libnum'],
 
       keywords='number prime gcd lcm modular invmod elliptic',
