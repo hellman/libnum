@@ -35,6 +35,7 @@ def b2s(b):
     Binary to string.
     """
     ret = []
+    b = b.zfill((len(b) + 7) / 8 * 8)
     for pos in range(0, len(b), 8):
         ret.append(chr(int(b[pos:pos + 8], 2)))
     return "".join(ret)
