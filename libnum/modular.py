@@ -3,6 +3,7 @@
 import operator
 
 from functools import reduce
+from .compat import xrange
 from .common import *
 from .stuff import *
 

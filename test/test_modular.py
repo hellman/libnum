@@ -2,8 +2,12 @@
 #-*- coding:utf-8 -*-
 
 import unittest
+import random
+
+from functools import reduce
 from itertools import combinations_with_replacement
 from libnum import *
+from libnum.compat import xrange
 
 
 class ModulusMath(unittest.TestCase):
@@ -96,14 +100,15 @@ class ModulusMath(unittest.TestCase):
                     real = reduce(operator.mul, [lezhs[p][a % p] for p in f])
                     test = jacobi(a, n)
                     if real != test:
-                        print ""
-                        print "%d | %d" % (a, n), f
-                        print "Lezhandre symbols:", [lezhs[p][a % p] for p in f]
+                        print("")
+                        print("%d | %d %s" % (a, n, repr(f)))
+                        print("Lezhandre symbols: %s" %
+                              repr([lezhs[p][a % p] for p in f]))
                         for p in f:
-                            print lezhs[p]
-                        print "real", real
-                        print "test", test
-                        print
+                            print(lezhs[p])
+                        print("real %s" % repr(real))
+                        print("test %s" % repr(test))
+                        print()
                     self.assertEqual(real, test)
 
         self.assertRaises(ValueError, jacobi, 1, 2)
@@ -113,9 +118,9 @@ class ModulusMath(unittest.TestCase):
         self.assertRaises(Exception, jacobi, 123, "qwe")
 
     def test_nCk_mod_pp(self):
-        print "\nTesting nCk mod prime powers"
+        print("\nTesting nCk mod prime powers")
         for p, max_e in [(2, 8), (3, 4), (5, 3), (7, 3), (11, 2), (13, 2)]:
-            print "    prime", p, "pow up to", max_e
+            print("    prime %s pow up to %s" % (repr(p), repr(max_e)))
             for i in xrange(100):
                 k = random.randint(1, 10000)
                 n = k + random.randint(0, 10000)
@@ -129,9 +134,9 @@ class ModulusMath(unittest.TestCase):
         pass
 
     def test_factorial_mod(self):
-        print "\nTesting factorial mod prime powers"
+        print("\nTesting factorial mod prime powers")
         for p, max_e in [(2, 8), (3, 4), (5, 3), (7, 3), (11, 2)]:
-            print "    prime", p, "pow up to", max_e
+            print("    prime %s pow up to %s" % (repr(p), repr(max_e)))
             for i in xrange(250):
                 n = random.randint(1, 3000)
                 e = random.randint(1, max_e)
@@ -139,7 +144,7 @@ class ModulusMath(unittest.TestCase):
                 real = factorial(n) % (p**e)
                 self.assertEqual(my, real)
 
-        print "\nTesting factorial mod small composites"
+        print("\nTesting factorial mod small composites")
         for i in xrange(150):
             n = random.randint(1, 8000)
             x = random.randint(0, n * 2)

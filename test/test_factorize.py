@@ -2,6 +2,8 @@
 #-*- coding:utf-8 -*-
 
 import unittest
+
+from functools import reduce
 from libnum.factorize import factorize
 from libnum.factorize import is_power
 

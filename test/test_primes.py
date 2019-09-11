@@ -3,6 +3,7 @@
 
 import unittest
 
+from libnum.compat import xrange
 from libnum.primes import *
 
 

@@ -3,6 +3,8 @@
 
 import json
 
+from functools import reduce
+
 """
 TODO: fix properties for empty
 or not? IndexError is ok

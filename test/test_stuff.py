@@ -3,6 +3,7 @@
 
 import unittest
 from libnum import *
+from libnum.compat import xrange
 
 
 class StuffTest(unittest.TestCase):

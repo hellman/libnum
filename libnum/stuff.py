@@ -2,6 +2,8 @@
 
 import operator
 
+from functools import reduce
+
 
 def grey_code(n):
     return n ^ (n >> 1)
@@ -48,4 +50,4 @@ def nCk(n, k):
     low_max = min(n, k)
     high_min = max(1, n - k + 1)
     high_max = n
-    return reduce(operator.mul, range(high_min, high_max + 1), 1) / reduce(operator.mul, range(low_min, low_max + 1), 1)
+    return reduce(operator.mul, range(high_min, high_max + 1), 1) // reduce(operator.mul, range(low_min, low_max + 1), 1)
