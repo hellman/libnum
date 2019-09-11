@@ -6,6 +6,7 @@ Some factorization methods are listed here
 
 import math
 import random
+from functools import reduce
 from .primes import primes, prime_test
 from .common import gcd, nroot
 
