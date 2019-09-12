@@ -13,10 +13,8 @@ from utcompat import *
 def check_valid_sqrt_pp(x, a, p, k):
     check_jacobi(a, p ** k, 1)
 
-    any_root = sqrtmod_prime_power(a, p, k).next()
-    assertEqual(pow(any_root, 2, p ** k), a)
-
     all_roots = list(sqrtmod_prime_power(a, p, k))
+    assertGreater(len(all_roots), 0)
     assertEqual(sorted(all_roots), sorted(set(all_roots)))
 
     reduced_roots = map(lambda a: a % p ** k, all_roots)
@@ -32,10 +30,8 @@ def check_valid_sqrt_pp(x, a, p, k):
 def check_valid_sqrt_composite(x, a, factors):
     n = unfactorize(factors)
 
-    any_root = sqrtmod(a, factors).next()
-    assertEqual(pow(any_root, 2, n), a)
-
     all_roots = list(sqrtmod(a, factors))
+    assertGreater(len(all_roots), 0)
     assertEqual(sorted(all_roots), sorted(set(all_roots)))
 
     for r in all_roots:
