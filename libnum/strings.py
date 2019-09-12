@@ -1,5 +1,7 @@
 #-*- coding:utf-8 -*-
 
+from libnum.compat import basestring
+
 
 def s2n(s):
     """
@@ -10,7 +12,7 @@ def s2n(s):
     try:
         enc = s.encode("hex")
     except LookupError:
-        enc = s.encode("utf-8").hex()
+        enc = "".join("%02x" % ord(c) for c in s)
     return int(enc, 16)
 
 
@@ -24,7 +26,7 @@ def n2s(n):
     try:
         return s.decode("hex")
     except AttributeError:
-        return bytes.fromhex(s).decode("utf-8")
+        return "".join(chr(int(s[i:i + 2], 16)) for i in range(0, len(s), 2))
 
 
 def s2b(s):
@@ -41,6 +43,8 @@ def b2s(b):
     """
     Binary to string.
     """
+    if not isinstance(b, basestring):
+        raise TypeError("Input must be a string.")
     ret = []
     b = b.zfill(((len(b) + 7) // 8) * 8)
     for pos in range(0, len(b), 8):
