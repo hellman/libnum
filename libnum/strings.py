@@ -7,7 +7,11 @@ def s2n(s):
     """
     if not len(s):
         return 0
-    return int(s.encode("hex"), 16)
+    try:
+        enc = s.encode("hex")
+    except LookupError:
+        enc = s.encode("utf-8").hex()
+    return int(enc, 16)
 
 
 def n2s(n):
@@ -17,7 +21,10 @@ def n2s(n):
     s = hex(n)[2:].rstrip("L")
     if len(s) % 2 != 0:
         s = "0" + s
-    return s.decode("hex")
+    try:
+        return s.decode("hex")
+    except AttributeError:
+        return bytes.fromhex(s).decode("utf-8")
 
 
 def s2b(s):
