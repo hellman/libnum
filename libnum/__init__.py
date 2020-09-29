@@ -16,11 +16,6 @@ from .chains import *
 from . import ecc
 
 
-__author__ = "hellman (hellman1908@gmail.com)"
-__license__ = "MIT"
-__version__ = "1.4"
-
-
 # be careful when changing this name, don't use test*!
 def runtests():
     """

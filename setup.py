@@ -8,14 +8,13 @@ import libnum
 
 
 setup(name='libnum',
-      version=libnum.__version__,
+      version="1.5.0",
       author='hellman',
-      author_email='hellman1908@gmail.com',
       license='MIT',
 
       url='https://github.com/hellman/libnum',
       description='Some number theoretic functions.',
-      long_description=libnum.__doc__,
+      long_description=open("README.md").read(),
 
       packages=['libnum', 'libnum.chains'],
       provides=['libnum'],
@@ -26,6 +25,7 @@ setup(name='libnum',
                    'Natural Language :: English',
                    'Operating System :: OS Independent',
                    'Programming Language :: Python :: 2',
+                   'Programming Language :: Python :: 3',
                    'License :: OSI Approved :: MIT License',
                    'Topic :: Scientific/Engineering :: Mathematics',
                    'Topic :: Security :: Cryptography',
