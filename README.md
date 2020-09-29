@@ -15,7 +15,17 @@ Library may be used for learning/experimenting/research purposes. Should NOT be 
 $ pip install libnum
 ```
 
-For development or building from this repository, [poetry](https://python-poetry.org/) is needed.
+Note that only Python 3 version is maintained.
+
+## Development
+
+For development or building this repository, [poetry](https://python-poetry.org/) is needed.
+
+Tests can be ran with
+
+```bash
+$ pytest --doctest-modules .
+```
 
 ## List of functions
 

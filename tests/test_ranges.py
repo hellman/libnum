@@ -1,11 +1,7 @@
-#-*- coding:utf-8 -*-
-
-import pytest
 from libnum.ranges import Ranges
 
 
 def test_Ranges():
-    print("test")
     r = Ranges((0, 10))
     assert r.len == 11
     assert r.min == 0

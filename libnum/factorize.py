@@ -1,5 +1,3 @@
-#-*- coding:utf-8 -*-
-
 """
 Some factorization methods are listed here
 """
@@ -8,7 +6,6 @@ import math
 import random
 
 from functools import reduce
-from .compat import xrange
 from .primes import primes, prime_test
 from .common import gcd, nroot
 
@@ -92,9 +89,6 @@ def factorize(n):
         factors.append(divizor)
         if other > 1:
             factors.append(other)
-
-    if not prime_factors:
-        prime_factors[1] = 1
     return prime_factors
 
 
@@ -104,7 +98,7 @@ def unfactorize(factors):
 
 def is_power(n):
     limit = int(math.log(n, 2))
-    for power in xrange(limit, 1, -1):
+    for power in range(limit, 1, -1):
         p = nroot(n, power)
         if pow(p, power) == n:
             return p, power

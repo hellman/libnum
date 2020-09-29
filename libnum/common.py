@@ -1,37 +1,34 @@
-#-*- coding:utf-8 -*-
-
 import math
 import random
 
 from functools import reduce
-from .compat import xrange
 
 
 def len_in_bits(n):
     """
     Return number of bits in binary representation of @n.
+    Probably deprecated by .bit_length().
     """
-    try:
-        return n.bit_length() # new in Python 2.7
-    except AttributeError:
-        if n == 0:
-            return 0
-        return len(bin(n)) - 2
+    if not isinstance(n, int):
+        raise TypeError("len_in_bits defined only for ints")
+    return n.bit_length()
 
 
 def randint_bits(size):
-    low = 1 << (size - 1)
-    hi = (1 << size) - 1
-    return random.randint(low, hi)
+    return random.getrandbits(size) | (1 << (size - 1))
 
 
 def ceil(x, y):
-    return x // y + int(x % y != 0)
+    """
+    Divide x by y with ceiling.
+    """
+    return (x + y - 1) // y
 
 
 def nroot(x, n):
     """
     Return truncated n'th root of x.
+    Using binary search.
     """
     if n < 0:
         raise ValueError("can't extract negative root")
@@ -62,18 +59,7 @@ def nroot(x, n):
     return sign * (mid + 1)
 
 
-try:
-    _gcd = math.gcd
-except AttributeError:
-
-    def _gcd(a, b):
-        """
-        Return greatest common divisor using Euclid's Algorithm.
-        """
-        if a == 0: return abs(b)
-        while b:
-            a, b = b, a % b
-        return abs(a)
+_gcd = math.gcd
 
 
 def _lcm(a, b):
@@ -81,7 +67,7 @@ def _lcm(a, b):
     Return lowest common multiple.
     """
     if not a or not b:
-        raise ZeroDivisionError("lcm arguments may not be zeros")
+        return 0
     return abs(a * b) // _gcd(a, b)
 
 
@@ -96,7 +82,7 @@ def lcm(*lst):
     """
     Return lcm of a variable number of arguments.
     """
-    return reduce(lambda a, b: _lcm(a, b), lst)
+    return abs(reduce(lambda a, b: _lcm(a, b), lst))
 
 
 def xgcd(a, b):
@@ -104,8 +90,10 @@ def xgcd(a, b):
     Extented Euclid GCD algorithm.
     Return (x, y, g) : a * x + b * y = gcd(a, b) = g.
     """
-    if a == 0: return 0, 1, b
-    if b == 0: return 1, 0, a
+    if a == 0:
+        return 0, 1, b
+    if b == 0:
+        return 1, 0, a
 
     px, ppx = 0, 1
     py, ppy = 1, 0
@@ -137,13 +125,3 @@ def extract_prime_power(a, p):
     else:
         raise ValueError("Number %d is not a prime (is smaller than 2)" % p)
     return s, a
-
-
-def solve_linear(a, b, c):
-    """
-    Solve a*x + b*y = c.
-    Solution (x0 + b*n, y0 + a*n).
-    Return None or (x0, y0).
-    """
-    #TODO: do
-    return None

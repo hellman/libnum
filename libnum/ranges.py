@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-#-*- coding:utf-8 -*-
-
 import json
 
 from functools import reduce
@@ -112,7 +109,10 @@ class Ranges(object):
 
     @property
     def len(self):
-        return reduce(lambda acc, ab: acc + 1 + ab[1] - ab[0], self._segments, 0)
+        return reduce(
+            lambda acc, ab: acc + 1 + ab[1] - ab[0],
+            self._segments, 0
+        )
 
     @property
     def min(self):
@@ -130,7 +130,7 @@ class Ranges(object):
         return str(self.segments)
 
     def __contains__(self, other):
-        assert isinstance(other, int) or isinstance(other, long)
+        assert isinstance(other, int)
         for a, b in self._segments:
             if a <= other <= b:
                 return True

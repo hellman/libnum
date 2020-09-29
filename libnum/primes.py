@@ -1,14 +1,12 @@
-#-*- coding:utf-8 -*-
-
 import math
 import random
 import operator
 
 from functools import reduce
-from .compat import xrange
+
 from .sqrtmod import jacobi
-from .common import *
-from .strings import *
+from .common import len_in_bits, gcd, extract_prime_power, randint_bits
+from .strings import s2n
 
 _primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]
 _small_primes_product = 1
@@ -22,7 +20,7 @@ def _init():
     for p in _primes:
         _primes_bits[len_in_bits(p)].append(p)
     _small_primes_product = reduce(operator.mul, _primes)
-    _primes_mask = [(x in _primes) for x in xrange(_primes[-1] + 1)]
+    _primes_mask = [(x in _primes) for x in range(_primes[-1] + 1)]
     return
 
 
@@ -114,11 +112,14 @@ def prime_test_ferma(p, k=25):
     Test for primality based on Ferma's Little Theorem
     Totally fails in Carmichael'e numbers
     """
-    if p < 2: return False
-    if p <= 3: return True
-    if p & 1 == 0: return False
+    if p < 2:
+        return False
+    if p <= 3:
+        return True
+    if p & 1 == 0:
+        return False
 
-    for j in xrange(k):
+    for j in range(k):
         a = random.randint(2, p - 1)
         if gcd(a, p) != 1:
             return False
@@ -134,11 +135,14 @@ def prime_test_solovay_strassen(p, k=25):
     Test for primality by Solovai-Strassen
     Stronger than Ferma's test
     """
-    if p < 2: return False
-    if p <= 3: return True
-    if p & 1 == 0: return False
+    if p < 2:
+        return False
+    if p <= 3:
+        return True
+    if p & 1 == 0:
+        return False
 
-    for j in xrange(k):
+    for j in range(k):
         a = random.randint(2, p - 1)
         if gcd(a, p) != 1:
             return False
@@ -157,9 +161,12 @@ def prime_test_miller_rabin(p, k=25):
     Test for primality by Miller-Rabin
     Stronger than Solovay-Strassen's test
     """
-    if p < 2: return False
-    if p <= 3: return True
-    if p & 1 == 0: return False
+    if p < 2:
+        return False
+    if p <= 3:
+        return True
+    if p & 1 == 0:
+        return False
 
     # p - 1 = 2**s * m
     s, m = extract_prime_power(p - 1, 2)
@@ -181,8 +188,10 @@ def prime_test_miller_rabin(p, k=25):
 
             if b == p - 1:
                 # is there one more squaring left to result in 1 ?
-                if i < s - 1: break  # good
-                else: return False   # bad
+                if i < s - 1:
+                    break  # good
+                else:
+                    return False   # bad
         else:
             # result is not 1
             return False

@@ -1,11 +1,9 @@
-#-*- coding:utf-8 -*-
-
 import operator
 
 from functools import reduce
-from .compat import xrange
-from .common import *
-from .stuff import *
+
+from .common import gcd, xgcd
+from .stuff import factorial_get_prime_pow, factorial
 
 
 def has_invmod(a, modulus):
@@ -117,13 +115,13 @@ def nCk_mod_prime_power(n, k, p, e):
 
         fact_pe = [1]
         acc = 1
-        for x in xrange(1, pe):
+        for x in range(1, pe):
             if x % p == 0:
                 x = 1
             acc = (acc * x) % pe
             fact_pe.append(acc)
 
-        top = bottom =1
+        top = bottom = 1
         is_negative = 0
         digits = 0
 

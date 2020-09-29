@@ -1,8 +1,4 @@
-#-*- coding:utf-8 -*-
-
-import pytest
 from libnum import ecc
-from utcompat import assertEqual
 
 
 def test_curve():
@@ -22,4 +18,4 @@ def test_curve():
         for j in points:
             res += [c.add(i, j)]
 
-    assertEqual(res, good)
+    assert res == good

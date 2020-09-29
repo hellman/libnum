@@ -1,8 +1,5 @@
-#-*- coding:utf-8 -*-
-
 import random
 
-from .compat import xrange
 from .sqrtmod import sqrtmod_prime_power, has_sqrtmod_prime_power
 from .modular import invmod
 
@@ -10,11 +7,12 @@ __all__ = ('NULL_POINT', 'Curve')
 
 NULL_POINT = (None, None)
 
+
 class Curve:
     def __init__(self, a, b, p, g=None,
-                                 order=None,
-                                 cofactor=None,
-                                 seed=None):
+                 order=None,
+                 cofactor=None,
+                 seed=None):
         self.a = a
         self.b = b
         self.module = p
@@ -84,9 +82,9 @@ class Curve:
         if end is None:
             end = self.module - 1
 
-        for x in xrange(start, end + 1):
+        for x in range(start, end + 1):
             p = self.check_x(x)
-            if p == False:
+            if not p:
                 continue
             points.extend(p)
 
@@ -101,7 +99,7 @@ class Curve:
         while len(points) < number:
             x = random.randint(0, self.module)
             p = self.check_x(x)
-            if p == False:
+            if not p:
                 continue
             points.append(p)
 
