@@ -2,6 +2,8 @@
 
 import operator
 
+from functools import reduce
+from .compat import xrange
 from .common import *
 from .stuff import *
 
@@ -38,9 +40,9 @@ def invmod(a, n):
 
 def solve_crt(remainders, modules):
     """
-    Solve Chinese Remainder Theoreme.
+    Solve Chinese Remainder Theorem.
     @modules and @remainders are lists.
-    @modules must be pairwsise coprimes.
+    @modules must be pairwise coprimes.
     """
     if len(modules) != len(remainders):
         raise TypeError("modules and remainders lists must have same len")

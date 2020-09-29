@@ -48,4 +48,4 @@ def sqrt_iter(n, s, t, a, b):
 
 if __name__ == '__main__':
     for v in (2, 3, 5, 6, 7, 8, 10, 11, 12, 13):
-        print "sqrt(%d):" % v, sqrt_chained_fractions(v)
+        print("sqrt(%d): %s" % (v, repr(sqrt_chained_fractions(v))))

@@ -2,6 +2,7 @@
 
 import random
 
+from .compat import xrange
 from .sqrtmod import sqrtmod_prime_power, has_sqrtmod_prime_power
 from .modular import invmod
 

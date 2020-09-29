@@ -1,5 +1,7 @@
 #-*- coding:utf-8 -*-
 
+from libnum.compat import basestring
+
 
 def s2n(s):
     """
@@ -7,7 +9,11 @@ def s2n(s):
     """
     if not len(s):
         return 0
-    return int(s.encode("hex"), 16)
+    try:
+        enc = s.encode("hex")
+    except LookupError:
+        enc = "".join("%02x" % ord(c) for c in s)
+    return int(enc, 16)
 
 
 def n2s(n):
@@ -17,7 +23,10 @@ def n2s(n):
     s = hex(n)[2:].rstrip("L")
     if len(s) % 2 != 0:
         s = "0" + s
-    return s.decode("hex")
+    try:
+        return s.decode("hex")
+    except AttributeError:
+        return "".join(chr(int(s[i:i + 2], 16)) for i in range(0, len(s), 2))
 
 
 def s2b(s):

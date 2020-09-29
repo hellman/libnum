@@ -3,6 +3,9 @@
 import math
 import random
 
+from functools import reduce
+from .compat import xrange
+
 
 def len_in_bits(n):
     """
@@ -23,7 +26,7 @@ def randint_bits(size):
 
 
 def ceil(x, y):
-    return x / y + (x % y != 0)
+    return x // y + int(x % y != 0)
 
 
 def nroot(x, n):
@@ -59,15 +62,18 @@ def nroot(x, n):
     return sign * (mid + 1)
 
 
-def _gcd(a, b):
-    """
-    Return greatest common divisor using Euclid's Algorithm.
-    """
-    if a == 0: return b
-    if b == 0: return a
-    while b:
-        a, b = b, a % b
-    return abs(a)
+try:
+    _gcd = math.gcd
+except AttributeError:
+
+    def _gcd(a, b):
+        """
+        Return greatest common divisor using Euclid's Algorithm.
+        """
+        if a == 0: return abs(b)
+        while b:
+            a, b = b, a % b
+        return abs(a)
 
 
 def _lcm(a, b):

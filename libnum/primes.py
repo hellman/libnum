@@ -4,6 +4,8 @@ import math
 import random
 import operator
 
+from functools import reduce
+from .compat import xrange
 from .sqrtmod import jacobi
 from .common import *
 from .strings import *
@@ -141,7 +143,7 @@ def prime_test_solovay_strassen(p, k=25):
         if gcd(a, p) != 1:
             return False
 
-        result = pow(a, (p - 1) / 2, p)
+        result = pow(a, (p - 1) // 2, p)
         if result not in (1, p - 1):
             return False
 
