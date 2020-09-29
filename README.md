@@ -1,7 +1,4 @@
-libnum
-====================
-
-**Requirements:** python2.7
+# libnum
 
 This is a python library for some numbers functions:
 
@@ -10,11 +7,17 @@ This is a python library for some numbers functions:
 *  modular arithmetics (inverse, Jacobi symbol, square root, solve CRT)
 *  converting strings to numbers or binary strings
 
-Library may be used for learning/experimenting purposes. Should NOT be used for secure crypto implementations.
+Library may be used for learning/experimenting/research purposes. Should NOT be used for secure crypto implementations.
 
+## Installation
 
-List of functions
----------------------
+```bash
+$ pip install libnum
+```
+
+For development or building from this repository, [poetry](https://python-poetry.org/) is needed.
+
+## List of functions
 
 <b>Common maths</b>
 
@@ -82,9 +85,8 @@ warning: format of factorization is now dict like {p1: e1, p2: e2, ...}
 *  nCk(n, k) - number of combinations
 *  factorial(n) - factorial
 
-About
----------------------
+## About
 
-Author: hellman ( hellman1908@gmail.com )
+Author: hellman
 
-License: MIT License (http://opensource.org/licenses/MIT)
+License: [MIT License](http://opensource.org/licenses/MIT)
