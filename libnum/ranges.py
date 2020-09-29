@@ -112,7 +112,7 @@ class Ranges(object):
 
     @property
     def len(self):
-        return reduce(lambda acc, (a, b): acc + 1 + b - a, self._segments, 0)
+        return reduce(lambda acc, ab: acc + 1 + ab[1] - ab[0], self._segments, 0)
 
     @property
     def min(self):
