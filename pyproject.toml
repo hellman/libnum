@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "libnum"
-version = "1.5.0"
+version = "1.7.0"
 description = "Working with numbers (primes, modular, etc.)"
 authors = ["hellman"]
 license = "MIT"
