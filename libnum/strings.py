@@ -1,8 +1,3 @@
-#-*- coding:utf-8 -*-
-
-from libnum.compat import basestring
-
-
 def s2n(s):
     """
     String to number.
@@ -33,11 +28,12 @@ def s2b(s):
     """
     String to binary.
     """
-    return bin(s2n(s))[2:]
+    res = bin(s2n(s))[2:]
+    return "0" * ((8 - len(res)) % 8) + res
 
 
 def b2s(b):
     """
     Binary to string.
     """
-    return n2s(int(b,2))
+    return n2s(int(b, 2))
