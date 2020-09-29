@@ -51,7 +51,6 @@ def testit(importdir="", testdir=""):
     import os.path
     import libnum
     print("libnum imported from %s" % os.path.dirname(libnum.__file__))
-    print("libnum version: %s" % libnum.__version__)
     print("Python version: %s" % sys.version)
     print("")
     if "-py" in sys.argv:
